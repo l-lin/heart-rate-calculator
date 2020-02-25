@@ -1,0 +1,9 @@
+heart-rate:
+  gap-duration: 5s
+  hri:
+    min: 0
+    max: 250
+spring:
+  main:
+    banner-mode: OFF
+
