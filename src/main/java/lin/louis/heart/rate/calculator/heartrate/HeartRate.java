@@ -7,9 +7,9 @@ public class HeartRate {
 
 	private static final String NAN_VALUE = "NaN";
 
-	private LocalDateTime timestamp;
+	private final LocalDateTime timestamp;
 
-	private String value;
+	private final String value;
 
 	public static HeartRate nan(LocalDateTime t) {
 		return new HeartRate(t, NAN_VALUE);
@@ -24,15 +24,7 @@ public class HeartRate {
 		return timestamp;
 	}
 
-	public void setTimestamp(LocalDateTime timestamp) {
-		this.timestamp = timestamp;
-	}
-
 	public String getValue() {
 		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
 	}
 }
