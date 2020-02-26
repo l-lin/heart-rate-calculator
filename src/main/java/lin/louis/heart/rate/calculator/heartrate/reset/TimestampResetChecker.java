@@ -1,14 +1,18 @@
 package lin.louis.heart.rate.calculator.heartrate.reset;
 
+import java.util.List;
+
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
 
 
 public class TimestampResetChecker implements ResetChecker {
 
 	@Override
-	public boolean isReset(HeartBeat... heartBeats) {
-		for (int i = 0; i < heartBeats.length - 1; i++) {
-			if (heartBeats[i].getTimestamp().isAfter(heartBeats[i + 1].getTimestamp())) {
+	public boolean isReset(List<HeartBeat> heartBeatList) {
+		for (var i = 0; i < heartBeatList.size() - 1; i++) {
+			var first = heartBeatList.get(i).getTimestamp();
+			var second = heartBeatList.get(i + 1).getTimestamp();
+			if (first.isAfter(second)) {
 				return true;
 			}
 		}

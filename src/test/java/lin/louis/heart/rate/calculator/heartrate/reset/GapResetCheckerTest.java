@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +21,7 @@ class GapResetCheckerTest {
 
 	@Test
 	void isReset() {
-		assertTrue(checker.isReset(
+		assertTrue(checker.isReset(Arrays.asList(
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11),
 						80,
@@ -40,12 +42,12 @@ class GapResetCheckerTest {
 						80,
 						HeartQRS.NORMAL
 				)
-		), "With a gap");
+		)), "With a gap");
 	}
 
 	@Test
 	void isNotReset() {
-		assertFalse(checker.isReset(
+		assertFalse(checker.isReset(Arrays.asList(
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11),
 						80,
@@ -71,11 +73,11 @@ class GapResetCheckerTest {
 						80,
 						HeartQRS.NORMAL
 				)
-		));
-		assertFalse(checker.isReset(new HeartBeat(
+		)));
+		assertFalse(checker.isReset(Collections.singletonList(new HeartBeat(
 				LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 19),
 				80,
 				HeartQRS.NORMAL
-		)), "One heart beat");
+		))), "One heart beat");
 	}
 }

@@ -11,7 +11,7 @@ public class ResetCheckerFacade {
 
 	public ResetCheckerFacade(List<ResetChecker> resetCheckers) {this.resetCheckers = resetCheckers;}
 
-	public boolean isReset(HeartBeat... heartBeats) {
-		return resetCheckers.stream().anyMatch(checker -> checker.isReset(heartBeats));
+	public boolean isReset(List<HeartBeat> heartBeatList) {
+		return resetCheckers.stream().anyMatch(checker -> checker.isReset(heartBeatList));
 	}
 }

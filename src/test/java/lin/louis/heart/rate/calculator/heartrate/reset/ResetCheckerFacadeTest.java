@@ -25,7 +25,7 @@ class ResetCheckerFacadeTest {
 
 	@Test
 	void isReset() {
-		assertTrue(checkerFacade.isReset(
+		assertTrue(checkerFacade.isReset(Arrays.asList(
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21), 80, HeartQRS.NORMAL),
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23), 0, HeartQRS.INVALID),
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 27), -88, HeartQRS.PACED),
@@ -35,12 +35,12 @@ class ResetCheckerFacadeTest {
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 31),
 						8,
 						HeartQRS.SUPRA_VENTRICULAR)
-		));
+		)));
 	}
 
 	@Test
 	void isNotReset() {
-		assertFalse(checkerFacade.isReset(
+		assertFalse(checkerFacade.isReset(Arrays.asList(
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21), 80, HeartQRS.NORMAL),
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23), 8, HeartQRS.FUSION),
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 27), 88, HeartQRS.PACED),
@@ -50,6 +50,6 @@ class ResetCheckerFacadeTest {
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 31),
 						8,
 						HeartQRS.SUPRA_VENTRICULAR)
-		));
+		)));
 	}
 }
