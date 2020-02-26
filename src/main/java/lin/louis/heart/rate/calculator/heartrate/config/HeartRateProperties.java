@@ -11,7 +11,7 @@ public class HeartRateProperties {
 	@DurationUnit(ChronoUnit.SECONDS)
 	private Duration gapDuration;
 
-	private HriProperties hri;
+	private HriProperties hri = new HriProperties();
 
 	private String separator;
 

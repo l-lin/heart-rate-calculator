@@ -29,7 +29,7 @@ public class HeartRateConfig {
 	}
 
 	@Bean
-	ResetCheckerFacade checkerFacade(HeartRateProperties heartRateProperties) {
+	ResetCheckerFacade resetCheckerFacade(HeartRateProperties heartRateProperties) {
 		return new ResetCheckerFacade(Arrays.asList(
 				new GapResetChecker(heartRateProperties.getGapDuration()),
 				new HriResetChecker(heartRateProperties.getHri().getMin(), heartRateProperties.getHri().getMax()),
