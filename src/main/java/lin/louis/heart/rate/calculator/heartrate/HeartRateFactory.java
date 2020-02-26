@@ -1,7 +1,6 @@
 package lin.louis.heart.rate.calculator.heartrate;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -12,6 +11,7 @@ import lin.louis.heart.rate.calculator.heartrate.reset.ResetCheckerFacade;
 
 
 public class HeartRateFactory {
+
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private final int nbHeartBeats;
@@ -36,16 +36,20 @@ public class HeartRateFactory {
 
 	public HeartRate create(List<HeartBeat> heartBeatList) {
 		if (heartBeatList.isEmpty()) {
+			logger.debug("Cannot create HeartRate as there are no heart beats detected");
 			return HeartRate.nan(null);
 		}
-		var t = heartBeatList.get(heartBeatList.size() - 1);
+		var lastHeartBeat = heartBeatList.get(heartBeatList.size() - 1);
+		var t = lastHeartBeat.getTimestamp().orElse(null);
 		if (!hasEnoughHeartBeats(heartBeatList)) {
-			return HeartRate.nan(t.getTimestamp().orElse(null));
+			logger.debug("There are not enough heart beats ({}) to create a heart rate (need {} heart beats) at {}",
+					heartBeatList.size(),
+					nbHeartBeats, t);
+			return HeartRate.nan(t);
 		}
 		if (resetCheckerFacade.isReset(heartBeatList)) {
-			logger.debug("Reset at {}", t.getTimestamp().orElse(null));
-			heartBeatList.forEach(HeartBeat::flush);
-			return HeartRate.nan(t.getTimestamp().orElse(null));
+			logger.debug("Reset at {}", t);
+			return HeartRate.resetHeartRate(t);
 		}
 
 		var value = heartRateComputor.compute(heartBeatList.stream()
@@ -53,7 +57,7 @@ public class HeartRateFactory {
 				.filter(Optional::isPresent)
 				.mapToInt(Optional::get)
 				.toArray());
-		return new HeartRate(t.getTimestamp().orElse(null), heartRateValueConverter.apply(value));
+		return new HeartRate(t, heartRateValueConverter.apply(value));
 	}
 
 	private boolean hasEnoughHeartBeats(List<HeartBeat> heartBeatList) {

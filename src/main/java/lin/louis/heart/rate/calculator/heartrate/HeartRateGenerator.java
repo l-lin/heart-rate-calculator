@@ -52,13 +52,38 @@ public class HeartRateGenerator {
 				logger.debug("Reading line {}: {}", lineNb++, line);
 				var heartBeat = heartBeatConverter.apply(line);
 				heartBeatList.add(heartBeat);
+
 				var hearRate = heartRateFactory.create(heartBeatList);
-				w.write(heartRateConverter.apply(hearRate));
-				w.newLine();
-				if (heartBeatList.size() == nbHeartBeats) {
-					heartBeatList.remove(0);
-				}
+				String heartRateValue = heartRateConverter.apply(hearRate);
+
+				writeHeartRate(w, heartRateValue);
+
+				heartBeatList = prepareNextIteration(hearRate, heartBeatList);
 			}
 		}
+	}
+
+	private void writeHeartRate(BufferedWriter w, String heartRateValue) throws IOException {
+		if (!heartRateValue.isBlank()) {
+			w.write(heartRateValue);
+			w.newLine();
+		}
+	}
+
+	/**
+	 * PrepareNextIteration flushes the last heart beats if the heart rate is reset, and keep the list of hear beats down
+	 * to the configured <b>nbHeartBeats</b>
+	 * @param heartRate the computed heart rate
+	 * @param heartBeatList the list of heart beats to change
+	 * @return a list of heart beats for next iteration
+	 */
+	private List<HeartBeat> prepareNextIteration(HeartRate heartRate, List<HeartBeat> heartBeatList) {
+		if (heartRate.isReset()) {
+			return new ArrayList<>(nbHeartBeats);
+		}
+		if (heartBeatList.size() == nbHeartBeats) {
+			heartBeatList.remove(0);
+		}
+		return heartBeatList;
 	}
 }

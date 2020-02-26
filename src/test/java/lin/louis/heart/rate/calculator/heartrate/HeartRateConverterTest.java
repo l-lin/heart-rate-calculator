@@ -26,4 +26,12 @@ class HeartRateConverterTest {
 				() -> assertEquals("", converter.apply(new HeartRate(null, "NaN")))
 		);
 	}
+
+	@Test
+	void edgeCases() {
+		assertAll(
+				() -> assertEquals("", converter.apply(null), "Null heart rate"),
+				() -> assertEquals("", converter.apply(new HeartRate(null, "NaN")), "Null timestamp")
+		);
+	}
 }

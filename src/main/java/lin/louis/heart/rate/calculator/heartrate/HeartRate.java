@@ -14,8 +14,16 @@ public class HeartRate {
 
 	private final String value;
 
+	private boolean isReset;
+
 	public static HeartRate nan(@Nullable LocalDateTime t) {
 		return new HeartRate(t, NAN_VALUE);
+	}
+
+	public static HeartRate resetHeartRate(@Nullable LocalDateTime t) {
+		var heartRate = new HeartRate(t, NAN_VALUE);
+		heartRate.isReset = true;
+		return heartRate;
 	}
 
 	public HeartRate(LocalDateTime timestamp, String value) {
@@ -29,5 +37,9 @@ public class HeartRate {
 
 	public String getValue() {
 		return value;
+	}
+
+	public boolean isReset() {
+		return isReset;
 	}
 }

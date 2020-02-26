@@ -10,7 +10,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
-import lin.louis.heart.rate.calculator.heartbeat.HeartQRS;
+import lin.louis.heart.rate.calculator.heartbeat.HeartBeatQRS;
 
 
 class HriResetCheckerTest {
@@ -21,28 +21,28 @@ class HriResetCheckerTest {
 	void isReset() {
 		assertTrue(checker.isReset(Collections.singletonList(new HeartBeat(LocalDateTime.now(),
 						-2,
-						HeartQRS.NORMAL))),
+						HeartBeatQRS.NORMAL))),
 				"Heart beat below min");
 		assertTrue(checker.isReset(Collections.singletonList(new HeartBeat(LocalDateTime.now(),
 						300,
-						HeartQRS.NORMAL))),
+						HeartBeatQRS.NORMAL))),
 				"Heart beat above max");
 	}
 
 	@Test
 	void isNotReset() {
 		assertFalse(checker.isReset(Arrays.asList(
-				new HeartBeat(LocalDateTime.now(), 80, HeartQRS.NORMAL),
-				new HeartBeat(LocalDateTime.now(), 8, HeartQRS.NORMAL),
-				new HeartBeat(LocalDateTime.now(), 88, HeartQRS.NORMAL),
-				new HeartBeat(LocalDateTime.now(), 180, HeartQRS.NORMAL),
-				new HeartBeat(LocalDateTime.now(), 8, HeartQRS.NORMAL)
+				new HeartBeat(LocalDateTime.now(), 80, HeartBeatQRS.NORMAL),
+				new HeartBeat(LocalDateTime.now(), 8, HeartBeatQRS.NORMAL),
+				new HeartBeat(LocalDateTime.now(), 88, HeartBeatQRS.NORMAL),
+				new HeartBeat(LocalDateTime.now(), 180, HeartBeatQRS.NORMAL),
+				new HeartBeat(LocalDateTime.now(), 8, HeartBeatQRS.NORMAL)
 		)), "Happy path");
 		assertFalse(checker.isReset(Collections.singletonList(
-				new HeartBeat(LocalDateTime.now(), 0, HeartQRS.NORMAL)
+				new HeartBeat(LocalDateTime.now(), 0, HeartBeatQRS.NORMAL)
 		)), "Min value");
 		assertFalse(checker.isReset(Collections.singletonList(
-				new HeartBeat(LocalDateTime.now(), 250, HeartQRS.NORMAL)
+				new HeartBeat(LocalDateTime.now(), 250, HeartBeatQRS.NORMAL)
 		)), "Max value");
 	}
 }

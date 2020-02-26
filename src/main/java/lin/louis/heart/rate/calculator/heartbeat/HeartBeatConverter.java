@@ -43,7 +43,11 @@ public class HeartBeatConverter implements Function<String, HeartBeat> {
 			logger.error(e.getMessage());
 			return HeartBeat.INVALID;
 		}
-		var qrs = HeartQRS.from(heartBeatValues[2]);
+		var qrs = HeartBeatQRS.from(heartBeatValues[2]);
+		if (qrs == null) {
+			logger.error("Invalid QRS '{}'", heartBeatValues[2]);
+			return HeartBeat.INVALID;
+		}
 		return new HeartBeat(timestamp, hri, qrs);
 	}
 }

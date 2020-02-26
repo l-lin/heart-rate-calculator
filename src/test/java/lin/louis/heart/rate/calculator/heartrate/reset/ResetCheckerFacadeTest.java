@@ -11,7 +11,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
-import lin.louis.heart.rate.calculator.heartbeat.HeartQRS;
+import lin.louis.heart.rate.calculator.heartbeat.HeartBeatQRS;
 
 
 class ResetCheckerFacadeTest {
@@ -26,30 +26,30 @@ class ResetCheckerFacadeTest {
 	@Test
 	void isReset() {
 		assertTrue(checkerFacade.isReset(Arrays.asList(
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21), 80, HeartQRS.NORMAL),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23), 0, HeartQRS.INVALID),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 27), -88, HeartQRS.PACED),
+				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21), 80, HeartBeatQRS.NORMAL),
+				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23), 0, HeartBeatQRS.INVALID),
+				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 27), -88, HeartBeatQRS.PACED),
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 29),
 						180,
-						HeartQRS.PREMATURE_VENTRICULAR),
+						HeartBeatQRS.PREMATURE_VENTRICULAR),
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 31),
 						8,
-						HeartQRS.SUPRA_VENTRICULAR)
+						HeartBeatQRS.SUPRA_VENTRICULAR)
 		)));
 	}
 
 	@Test
 	void isNotReset() {
 		assertFalse(checkerFacade.isReset(Arrays.asList(
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21), 80, HeartQRS.NORMAL),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23), 8, HeartQRS.FUSION),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 27), 88, HeartQRS.PACED),
+				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21), 80, HeartBeatQRS.NORMAL),
+				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23), 8, HeartBeatQRS.FUSION),
+				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 27), 88, HeartBeatQRS.PACED),
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 29),
 						180,
-						HeartQRS.PREMATURE_VENTRICULAR),
+						HeartBeatQRS.PREMATURE_VENTRICULAR),
 				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 31),
 						8,
-						HeartQRS.SUPRA_VENTRICULAR)
+						HeartBeatQRS.SUPRA_VENTRICULAR)
 		)));
 	}
 }

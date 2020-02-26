@@ -14,9 +14,9 @@ public class HeartBeat {
 
 	private Integer hri;
 
-	private HeartQRS qrs;
+	private HeartBeatQRS qrs;
 
-	public HeartBeat(@Nullable LocalDateTime timestamp, @Nullable Integer hri, @Nullable HeartQRS qrs) {
+	public HeartBeat(@Nullable LocalDateTime timestamp, @Nullable Integer hri, @Nullable HeartBeatQRS qrs) {
 		this.timestamp = timestamp;
 		this.hri = hri;
 		this.qrs = qrs;
@@ -30,12 +30,7 @@ public class HeartBeat {
 		return Optional.ofNullable(hri);
 	}
 
-	public Optional<HeartQRS> getQrs() {
+	public Optional<HeartBeatQRS> getQrs() {
 		return Optional.ofNullable(qrs);
-	}
-
-	public void flush() {
-		hri = null;
-		qrs = null;
 	}
 }

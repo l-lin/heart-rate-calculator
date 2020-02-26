@@ -16,43 +16,55 @@ class HeartBeatConverterTest {
 	private HeartBeatConverter converter = new HeartBeatConverter(" ");
 
 	@Test
-	void normalHeartBeat() {
-		var hb = converter.apply("1574676011000 80 N");
-		assertNotNull(hb);
+	void apply_normalHeartBeat() {
+		// GIVEN
+		var heartBeatStr = "1574676011000 80 N";
+
+		// WHEN
+		var heartBeat = converter.apply(heartBeatStr);
+
+		// THEN
+		assertNotNull(heartBeat);
 		var expectedTimestamp = LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11);
 		assertAll("heart beat",
 				() -> {
-					assertTrue(hb.getTimestamp().isPresent());
-					assertEquals(expectedTimestamp, hb.getTimestamp().get());
+					assertTrue(heartBeat.getTimestamp().isPresent());
+					assertEquals(expectedTimestamp, heartBeat.getTimestamp().get());
 				},
 				() -> {
-					assertTrue(hb.getHri().isPresent());
-					assertEquals(80, hb.getHri().get());
+					assertTrue(heartBeat.getHri().isPresent());
+					assertEquals(80, heartBeat.getHri().get());
 				},
 				() -> {
-					assertTrue(hb.getQrs().isPresent());
-					assertEquals(HeartQRS.NORMAL, hb.getQrs().get());
+					assertTrue(heartBeat.getQrs().isPresent());
+					assertEquals(HeartBeatQRS.NORMAL, heartBeat.getQrs().get());
 				}
 		);
 	}
 
 	@Test
-	void ignoringTooManyParameters() {
-		var hb = converter.apply("1574676011000 80 N foobar barfoo");
-		assertNotNull(hb);
+	void apply_ignoringTooManyParameters() {
+		// GIVEN
+		String heartBeatStr = "1574676011000 80 N foobar barfoo";
+
+		// WHEN
+		var heartBeat = converter.apply(heartBeatStr);
+
+		// THEN
+		assertNotNull(heartBeat);
 		var expectedTimestamp = LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11);
 		assertAll("heart beat",
 				() -> {
-					assertTrue(hb.getTimestamp().isPresent());
-					assertEquals(expectedTimestamp, hb.getTimestamp().get());
+					assertTrue(heartBeat.getTimestamp().isPresent());
+					assertEquals(expectedTimestamp, heartBeat.getTimestamp().get());
 				},
 				() -> {
-					assertTrue(hb.getHri().isPresent());
-					assertEquals(80, hb.getHri().get());
+					assertTrue(heartBeat.getHri().isPresent());
+					assertEquals(80, heartBeat.getHri().get());
 				},
 				() -> {
-					assertTrue(hb.getQrs().isPresent());
-					assertEquals(HeartQRS.NORMAL, hb.getQrs().get());
+					assertTrue(heartBeat.getQrs().isPresent());
+					assertEquals(HeartBeatQRS.NORMAL, heartBeat.getQrs().get());
 				}
 		);
 	}
@@ -65,7 +77,8 @@ class HeartBeatConverterTest {
 				() -> assertInvalid("String containing only spaces", converter.apply("    ")),
 				() -> assertInvalid("Not enough parameters", converter.apply("1574676011000 80")),
 				() -> assertInvalid("Timestamp parsing error", converter.apply("foobar 80 N")),
-				() -> assertInvalid("HRI parsing error", converter.apply("1574676011000 foobar N"))
+				() -> assertInvalid("HRI parsing error", converter.apply("1574676011000 foobar N")),
+				() -> assertInvalid("QRS parsing error", converter.apply("1574676011000 80 H"))
 		);
 	}
 

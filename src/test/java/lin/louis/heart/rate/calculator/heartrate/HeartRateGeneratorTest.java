@@ -23,7 +23,7 @@ import lin.louis.heart.rate.calculator.heartrate.reset.TimestampResetChecker;
 
 class HeartRateGeneratorTest {
 
-	HeartRateGenerator generator = new HeartRateGenerator(
+	private HeartRateGenerator generator = new HeartRateGenerator(
 			8,
 			new HeartBeatConverter(" "),
 			new HeartRateConverter(" "),
@@ -86,6 +86,7 @@ class HeartRateGeneratorTest {
 				+ "1574793418095 56 N\n"
 				+ "1574793418915 73 N\n"
 				+ "1574793419749 72 N\n"
+				// FLUSH HERE
 				+ "1574793400571 73 N\n"
 				+ "1574793421389 73 N";
 		// WHEN

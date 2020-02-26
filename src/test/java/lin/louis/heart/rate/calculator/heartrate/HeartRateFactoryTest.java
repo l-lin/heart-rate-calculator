@@ -15,7 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
-import lin.louis.heart.rate.calculator.heartbeat.HeartQRS;
+import lin.louis.heart.rate.calculator.heartbeat.HeartBeatQRS;
 import lin.louis.heart.rate.calculator.heartrate.reset.GapResetChecker;
 import lin.louis.heart.rate.calculator.heartrate.reset.HriResetChecker;
 import lin.louis.heart.rate.calculator.heartrate.reset.QRSResetChecker;
@@ -41,14 +41,14 @@ class HeartRateFactoryTest {
 	void create() {
 		// GIVEN
 		List<HeartBeat> heartBeatList = Arrays.asList(
-				new HeartBeat(newLocalDateTime(1), 80, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(2), 100, HeartQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(3), 83, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(4), 80, HeartQRS.PACED),
-				new HeartBeat(newLocalDateTime(5), 91, HeartQRS.SUPRA_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(7), 88, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(8), 70, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(10), 10, HeartQRS.FUSION)
+				new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR),
+				new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED),
+				new HeartBeat(newLocalDateTime(5), 91, HeartBeatQRS.SUPRA_VENTRICULAR),
+				new HeartBeat(newLocalDateTime(7), 88, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(8), 70, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(10), 10, HeartBeatQRS.FUSION)
 		);
 
 		// WHEN
@@ -69,17 +69,17 @@ class HeartRateFactoryTest {
 	void create_moreThan8HeartBeats() {
 		// GIVEN
 		List<HeartBeat> heartBeatList = Arrays.asList(
-				new HeartBeat(newLocalDateTime(1), 80, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(2), 100, HeartQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(3), 83, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(4), 80, HeartQRS.PACED),
-				new HeartBeat(newLocalDateTime(5), 91, HeartQRS.SUPRA_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(7), 88, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(8), 70, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(10), 90, HeartQRS.FUSION),
-				new HeartBeat(newLocalDateTime(11), 110, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(13), 10, HeartQRS.FUSION),
-				new HeartBeat(newLocalDateTime(17), 193, HeartQRS.PREMATURE_VENTRICULAR)
+				new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR),
+				new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED),
+				new HeartBeat(newLocalDateTime(5), 91, HeartBeatQRS.SUPRA_VENTRICULAR),
+				new HeartBeat(newLocalDateTime(7), 88, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(8), 70, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(10), 90, HeartBeatQRS.FUSION),
+				new HeartBeat(newLocalDateTime(11), 110, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(13), 10, HeartBeatQRS.FUSION),
+				new HeartBeat(newLocalDateTime(17), 193, HeartBeatQRS.PREMATURE_VENTRICULAR)
 		);
 
 		// WHEN
@@ -100,17 +100,18 @@ class HeartRateFactoryTest {
 	void create_reset() {
 		// GIVEN
 		List<HeartBeat> heartBeatList = Arrays.asList(
-				new HeartBeat(newLocalDateTime(1), 80, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(2), 100, HeartQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(3), 83, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(4), 80, HeartQRS.PACED),
-				new HeartBeat(newLocalDateTime(5), 91, HeartQRS.INVALID),
-				new HeartBeat(newLocalDateTime(7), 88, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(8), 70, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(10), 90, HeartQRS.FUSION),
-				new HeartBeat(newLocalDateTime(11), 110, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(13), 10, HeartQRS.FUSION),
-				new HeartBeat(newLocalDateTime(17), 193, HeartQRS.PREMATURE_VENTRICULAR)
+				new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR),
+				new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED),
+				// Reset at this moment
+				new HeartBeat(newLocalDateTime(5), 91, HeartBeatQRS.INVALID),
+				new HeartBeat(newLocalDateTime(7), 88, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(8), 70, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(10), 90, HeartBeatQRS.FUSION),
+				new HeartBeat(newLocalDateTime(11), 110, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(13), 10, HeartBeatQRS.FUSION),
+				new HeartBeat(newLocalDateTime(17), 193, HeartBeatQRS.PREMATURE_VENTRICULAR)
 		);
 
 		// WHEN
@@ -123,14 +124,7 @@ class HeartRateFactoryTest {
 					assertTrue(heartRate.getTimestamp().isPresent());
 					assertEquals(newLocalDateTime(17), heartRate.getTimestamp().get());
 				},
-				() -> assertEquals("NaN", heartRate.getValue()),
-				() -> {
-					assertEquals(11, heartBeatList.size());
-					heartBeatList.forEach(hb -> {
-						assertTrue(hb.getQrs().isEmpty());
-						assertTrue(hb.getQrs().isEmpty());
-					});
-				}
+				() -> assertEquals("NaN", heartRate.getValue())
 		);
 	}
 
@@ -138,10 +132,10 @@ class HeartRateFactoryTest {
 	void create_lessThan8HeartBeats() {
 		// GIVEN
 		List<HeartBeat> heartBeatList = Arrays.asList(
-				new HeartBeat(newLocalDateTime(1), 80, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(2), 100, HeartQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(3), 83, HeartQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(4), 80, HeartQRS.PACED)
+				new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR),
+				new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL),
+				new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED)
 		);
 
 		// WHEN

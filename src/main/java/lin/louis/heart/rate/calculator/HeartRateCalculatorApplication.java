@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,20 +42,30 @@ public class HeartRateCalculatorApplication {
 				printHelp();
 				System.exit(1);
 			}
+			var start = LocalDateTime.now();
+			var inputFileName = args[0];
+			var outputFileName = args[1];
 			try (
-					InputStream in = new FileInputStream(args[0]);
-					OutputStream out = new FileOutputStream(args[1])
+					InputStream in = new FileInputStream(inputFileName);
+					OutputStream out = new FileOutputStream(outputFileName)
 			) {
 				heartRateGenerator.generate(in, out);
 			} catch (IOException e) {
 				logger.error(e.getMessage(), e);
 			}
+			var timeExecuted = Duration.between(start, LocalDateTime.now());
+			logger.info("Finished writing heart rates from '{}' to '{}' in {}ms",
+					inputFileName,
+					outputFileName,
+					timeExecuted.toMillis());
 		}
 
 		private void printHelp() {
 			logger.info("\n\nComputing heart rates from heart beats.\n\n"
 					+ "Usage:\n"
 					+ "\theart-rate-calculator-spring-boot.jar <input_file> <output_file>\n\n"
+					+ "\t\tor\n"
+					+ "\tjava -jar heart-rate-calculator.jar <input_file> <output_file>\n"
 					+ "Examples:\n"
 					+ "\theart-rate-calculator-spring-boot.jar /path/to/heartbeat.in /path/to/heartrate.out\n"
 					+ "\t\tor\n"

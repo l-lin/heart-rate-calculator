@@ -11,7 +11,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
-import lin.louis.heart.rate.calculator.heartbeat.HeartQRS;
+import lin.louis.heart.rate.calculator.heartbeat.HeartBeatQRS;
 
 
 class TimestampResetCheckerTest {
@@ -24,22 +24,23 @@ class TimestampResetCheckerTest {
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 22),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
+				// DATE PRIOR TO PREVIOUS DATE
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				)
 		)));
 	}
@@ -50,29 +51,29 @@ class TimestampResetCheckerTest {
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 12),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 15),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 19),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				)
 		)));
 		assertFalse(checker.isReset(Collections.singletonList(
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				)
 		)), "One heart beat");
 	}

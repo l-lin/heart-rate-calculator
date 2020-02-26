@@ -12,7 +12,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
-import lin.louis.heart.rate.calculator.heartbeat.HeartQRS;
+import lin.louis.heart.rate.calculator.heartbeat.HeartBeatQRS;
 
 
 class GapResetCheckerTest {
@@ -25,22 +25,22 @@ class GapResetCheckerTest {
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 12),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				)
 		)), "With a gap");
 	}
@@ -51,33 +51,33 @@ class GapResetCheckerTest {
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 12),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 14),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 18),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				),
 				new HeartBeat(
 						LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 19),
 						80,
-						HeartQRS.NORMAL
+						HeartBeatQRS.NORMAL
 				)
 		)));
 		assertFalse(checker.isReset(Collections.singletonList(new HeartBeat(
 				LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 19),
 				80,
-				HeartQRS.NORMAL
+				HeartBeatQRS.NORMAL
 		))), "One heart beat");
 	}
 }

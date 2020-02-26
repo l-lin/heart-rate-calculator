@@ -10,7 +10,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
-import lin.louis.heart.rate.calculator.heartbeat.HeartQRS;
+import lin.louis.heart.rate.calculator.heartbeat.HeartBeatQRS;
 
 
 class QRSResetCheckerTest {
@@ -19,20 +19,30 @@ class QRSResetCheckerTest {
 
 	@Test
 	void isReset() {
-		assertTrue(checker.isReset(Collections.singletonList(new HeartBeat(LocalDateTime.now(),
-						300,
-						HeartQRS.INVALID))),
-				"Invalid heart beat");
+		assertTrue(checker.isReset(Arrays.asList(
+				new HeartBeat(LocalDateTime.now(), 80, HeartBeatQRS.NORMAL),
+				new HeartBeat(LocalDateTime.now(), 8, HeartBeatQRS.FUSION),
+				new HeartBeat(LocalDateTime.now(), 88, HeartBeatQRS.INVALID),
+				new HeartBeat(LocalDateTime.now(), 180, HeartBeatQRS.PREMATURE_VENTRICULAR),
+				new HeartBeat(LocalDateTime.now(), 8, HeartBeatQRS.SUPRA_VENTRICULAR)
+		)), "Invalid heart beat");
+		assertTrue(checker.isReset(Arrays.asList(
+				new HeartBeat(LocalDateTime.now(), 80, HeartBeatQRS.NORMAL),
+				new HeartBeat(LocalDateTime.now(), 8, HeartBeatQRS.FUSION),
+				new HeartBeat(LocalDateTime.now(), 88, null),
+				new HeartBeat(LocalDateTime.now(), 180, HeartBeatQRS.PREMATURE_VENTRICULAR),
+				new HeartBeat(LocalDateTime.now(), 8, HeartBeatQRS.SUPRA_VENTRICULAR)
+		)), "Null heart beat");
 	}
 
 	@Test
 	void isNotReset() {
 		assertFalse(checker.isReset(Arrays.asList(
-				new HeartBeat(LocalDateTime.now(), 80, HeartQRS.NORMAL),
-				new HeartBeat(LocalDateTime.now(), 8, HeartQRS.FUSION),
-				new HeartBeat(LocalDateTime.now(), 88, HeartQRS.PACED),
-				new HeartBeat(LocalDateTime.now(), 180, HeartQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(LocalDateTime.now(), 8, HeartQRS.SUPRA_VENTRICULAR)
+				new HeartBeat(LocalDateTime.now(), 80, HeartBeatQRS.NORMAL),
+				new HeartBeat(LocalDateTime.now(), 8, HeartBeatQRS.FUSION),
+				new HeartBeat(LocalDateTime.now(), 88, HeartBeatQRS.PACED),
+				new HeartBeat(LocalDateTime.now(), 180, HeartBeatQRS.PREMATURE_VENTRICULAR),
+				new HeartBeat(LocalDateTime.now(), 8, HeartBeatQRS.SUPRA_VENTRICULAR)
 		)), "Happy path");
 	}
 }
