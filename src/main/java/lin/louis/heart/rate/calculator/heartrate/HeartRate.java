@@ -1,6 +1,9 @@
 package lin.louis.heart.rate.calculator.heartrate;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+
+import org.springframework.lang.Nullable;
 
 
 public class HeartRate {
@@ -11,7 +14,7 @@ public class HeartRate {
 
 	private final String value;
 
-	public static HeartRate nan(LocalDateTime t) {
+	public static HeartRate nan(@Nullable LocalDateTime t) {
 		return new HeartRate(t, NAN_VALUE);
 	}
 
@@ -20,8 +23,8 @@ public class HeartRate {
 		this.value = value;
 	}
 
-	public LocalDateTime getTimestamp() {
-		return timestamp;
+	public Optional<LocalDateTime> getTimestamp() {
+		return Optional.ofNullable(timestamp);
 	}
 
 	public String getValue() {

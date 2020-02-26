@@ -12,7 +12,7 @@ public class TimestampResetChecker implements ResetChecker {
 		for (var i = 0; i < heartBeatList.size() - 1; i++) {
 			var first = heartBeatList.get(i).getTimestamp();
 			var second = heartBeatList.get(i + 1).getTimestamp();
-			if (first.isAfter(second)) {
+			if (first.isPresent() && second.isPresent() && first.get().isAfter(second.get())) {
 				return true;
 			}
 		}

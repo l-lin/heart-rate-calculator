@@ -88,7 +88,6 @@ class HeartRateGeneratorTest {
 				+ "1574793419749 72 N\n"
 				+ "1574793400571 73 N\n"
 				+ "1574793421389 73 N";
-
 		// WHEN
 		String outStr;
 		try (

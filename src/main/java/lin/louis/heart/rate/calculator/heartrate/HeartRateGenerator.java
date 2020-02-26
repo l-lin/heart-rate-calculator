@@ -10,11 +10,15 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeatConverter;
 
 
 public class HeartRateGenerator {
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private final int nbHeartBeats;
 
@@ -43,15 +47,17 @@ public class HeartRateGenerator {
 		) {
 			String line;
 			List<HeartBeat> heartBeatList = new ArrayList<>(nbHeartBeats);
+			var lineNb = 1;
 			while ((line = r.readLine()) != null) {
-				if (heartBeatList.size() == nbHeartBeats) {
-					heartBeatList.remove(0);
-				}
+				logger.debug("Reading line {}: {}", lineNb++, line);
 				var heartBeat = heartBeatConverter.apply(line);
 				heartBeatList.add(heartBeat);
 				var hearRate = heartRateFactory.create(heartBeatList);
 				w.write(heartRateConverter.apply(hearRate));
 				w.newLine();
+				if (heartBeatList.size() == nbHeartBeats) {
+					heartBeatList.remove(0);
+				}
 			}
 		}
 	}

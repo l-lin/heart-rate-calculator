@@ -15,9 +15,9 @@ public class GapResetChecker implements ResetChecker {
 	@Override
 	public boolean isReset(List<HeartBeat> heartBeats) {
 		for (int i = 0; i < heartBeats.size() - 1; i++) {
-			var firstTimestamp = heartBeats.get(i).getTimestamp();
-			var secondTimestamp = heartBeats.get(i + 1).getTimestamp();
-			if (firstTimestamp.plus(gapDuration).isBefore(secondTimestamp)) {
+			var first = heartBeats.get(i).getTimestamp();
+			var second = heartBeats.get(i + 1).getTimestamp();
+			if (first.isPresent() && second.isPresent() && first.get().plus(gapDuration).isBefore(second.get())) {
 				return true;
 			}
 		}

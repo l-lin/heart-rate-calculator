@@ -12,11 +12,11 @@ public class HeartRateConverter implements Function<HeartRate, String> {
 
 	@Override
 	public String apply(HeartRate heartRate) {
-		if (heartRate == null) {
+		if (heartRate == null || heartRate.getTimestamp().isEmpty()) {
 			return "";
 		}
 		return String.format("%s%s%s",
-				heartRate.getTimestamp().toInstant(ZoneOffset.UTC).toEpochMilli(),
+				heartRate.getTimestamp().get().toInstant(ZoneOffset.UTC).toEpochMilli(),
 				separator,
 				heartRate.getValue());
 	}

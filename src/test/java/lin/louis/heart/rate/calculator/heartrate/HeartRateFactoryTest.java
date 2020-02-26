@@ -3,7 +3,7 @@ package lin.louis.heart.rate.calculator.heartrate;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -57,7 +57,10 @@ class HeartRateFactoryTest {
 		// THEN
 		assertNotNull(heartRate);
 		assertAll(
-				() -> assertEquals(newLocalDateTime(10), heartRate.getTimestamp()),
+				() -> {
+					assertTrue(heartRate.getTimestamp().isPresent());
+					assertEquals(newLocalDateTime(10), heartRate.getTimestamp().get());
+				},
 				() -> assertEquals("81.5", heartRate.getValue())
 		);
 	}
@@ -85,7 +88,10 @@ class HeartRateFactoryTest {
 		// THEN
 		assertNotNull(heartRate);
 		assertAll(
-				() -> assertEquals(newLocalDateTime(17), heartRate.getTimestamp()),
+				() -> {
+					assertTrue(heartRate.getTimestamp().isPresent());
+					assertEquals(newLocalDateTime(17), heartRate.getTimestamp().get());
+				},
 				() -> assertEquals("88.0", heartRate.getValue())
 		);
 	}
@@ -113,11 +119,17 @@ class HeartRateFactoryTest {
 		// THEN
 		assertNotNull(heartRate);
 		assertAll(
-				() -> assertEquals(newLocalDateTime(17), heartRate.getTimestamp()),
+				() -> {
+					assertTrue(heartRate.getTimestamp().isPresent());
+					assertEquals(newLocalDateTime(17), heartRate.getTimestamp().get());
+				},
 				() -> assertEquals("NaN", heartRate.getValue()),
 				() -> {
 					assertEquals(11, heartBeatList.size());
-					heartBeatList.forEach(hb -> assertEquals(HeartQRS.INVALID, hb.getQrs()));
+					heartBeatList.forEach(hb -> {
+						assertTrue(hb.getQrs().isEmpty());
+						assertTrue(hb.getQrs().isEmpty());
+					});
 				}
 		);
 	}
@@ -138,7 +150,10 @@ class HeartRateFactoryTest {
 		// THEN
 		assertNotNull(heartRate);
 		assertAll(
-				() -> assertEquals(newLocalDateTime(4), heartRate.getTimestamp()),
+				() -> {
+					assertTrue(heartRate.getTimestamp().isPresent());
+					assertEquals(newLocalDateTime(4), heartRate.getTimestamp().get());
+				},
 				() -> assertEquals("NaN", heartRate.getValue())
 		);
 	}
@@ -151,7 +166,7 @@ class HeartRateFactoryTest {
 		// THEN
 		assertNotNull(heartRate);
 		assertAll(
-				() -> assertNull(heartRate.getTimestamp()),
+				() -> assertTrue(heartRate.getTimestamp().isEmpty()),
 				() -> assertEquals("NaN", heartRate.getValue())
 		);
 	}

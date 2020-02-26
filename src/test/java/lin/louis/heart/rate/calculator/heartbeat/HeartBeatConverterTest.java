@@ -3,6 +3,7 @@ package lin.louis.heart.rate.calculator.heartbeat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -20,9 +21,18 @@ class HeartBeatConverterTest {
 		assertNotNull(hb);
 		var expectedTimestamp = LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11);
 		assertAll("heart beat",
-				() -> assertEquals(expectedTimestamp, hb.getTimestamp()),
-				() -> assertEquals(80, hb.getHri()),
-				() -> assertEquals(HeartQRS.NORMAL, hb.getQrs())
+				() -> {
+					assertTrue(hb.getTimestamp().isPresent());
+					assertEquals(expectedTimestamp, hb.getTimestamp().get());
+				},
+				() -> {
+					assertTrue(hb.getHri().isPresent());
+					assertEquals(80, hb.getHri().get());
+				},
+				() -> {
+					assertTrue(hb.getQrs().isPresent());
+					assertEquals(HeartQRS.NORMAL, hb.getQrs().get());
+				}
 		);
 	}
 
@@ -32,9 +42,18 @@ class HeartBeatConverterTest {
 		assertNotNull(hb);
 		var expectedTimestamp = LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11);
 		assertAll("heart beat",
-				() -> assertEquals(expectedTimestamp, hb.getTimestamp()),
-				() -> assertEquals(80, hb.getHri()),
-				() -> assertEquals(HeartQRS.NORMAL, hb.getQrs())
+				() -> {
+					assertTrue(hb.getTimestamp().isPresent());
+					assertEquals(expectedTimestamp, hb.getTimestamp().get());
+				},
+				() -> {
+					assertTrue(hb.getHri().isPresent());
+					assertEquals(80, hb.getHri().get());
+				},
+				() -> {
+					assertTrue(hb.getQrs().isPresent());
+					assertEquals(HeartQRS.NORMAL, hb.getQrs().get());
+				}
 		);
 	}
 
@@ -53,8 +72,9 @@ class HeartBeatConverterTest {
 	private void assertInvalid(String heading, HeartBeat hb) {
 		assertNotNull(hb);
 		assertAll(heading,
-				() -> assertEquals(0, hb.getHri()),
-				() -> assertEquals(HeartQRS.INVALID, hb.getQrs())
+				() -> assertTrue(hb.getTimestamp().isEmpty()),
+				() -> assertTrue(hb.getHri().isEmpty()),
+				() -> assertTrue(hb.getQrs().isEmpty())
 		);
 	}
 }

@@ -19,6 +19,8 @@ public class HriResetChecker implements ResetChecker {
 	@Override
 	public boolean isReset(List<HeartBeat> heartBeatList) {
 		return heartBeatList.stream()
-				.anyMatch(heartBeat -> heartBeat.getHri() < hriMin || heartBeat.getHri() > hriMax);
+				.anyMatch(heartBeat -> heartBeat.getHri().isPresent() &&
+						(heartBeat.getHri().get() < hriMin || heartBeat.getHri().get() > hriMax)
+				);
 	}
 }

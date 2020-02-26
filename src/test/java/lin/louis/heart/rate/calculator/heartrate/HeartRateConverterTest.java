@@ -22,7 +22,8 @@ class HeartRateConverterTest {
 				() -> assertEquals("1574676011000 NaN", converter.apply(
 						new HeartRate(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11), "NaN"))
 				),
-				() -> assertEquals("", converter.apply(null))
+				() -> assertEquals("", converter.apply(null)),
+				() -> assertEquals("", converter.apply(new HeartRate(null, "NaN")))
 		);
 	}
 }
