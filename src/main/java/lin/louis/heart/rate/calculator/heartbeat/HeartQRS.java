@@ -12,10 +12,6 @@ public enum HeartQRS {
 
 	HeartQRS(String type) {this.type = type;}
 
-	public String getType() {
-		return type;
-	}
-
 	public static HeartQRS from(String c) {
 		for (HeartQRS heartQRS : HeartQRS.values()) {
 			if (heartQRS.type.equals(c)) {

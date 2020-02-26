@@ -37,6 +37,7 @@ class HeartBeatConverterTest {
 				() -> assertEquals(HeartQRS.NORMAL, hb.getQrs())
 		);
 	}
+
 	@Test
 	void edgeCases() {
 		assertAll(

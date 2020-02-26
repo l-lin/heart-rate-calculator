@@ -23,12 +23,12 @@ public class HeartBeatConverter implements Function<String, HeartBeat> {
 	public HeartBeat apply(String s) {
 		if (null == s || "".equals(s.trim())) {
 			logger.error("The input value must not be null or empty");
-			return HeartBeat.invalid();
+			return HeartBeat.INVALID;
 		}
 		var heartBeatValues = s.split(separator);
 		if (heartBeatValues.length < 3) {
 			logger.error("The input value does not contains enough parameters");
-			return HeartBeat.invalid();
+			return HeartBeat.INVALID;
 		}
 
 		LocalDateTime timestamp;
@@ -41,7 +41,7 @@ public class HeartBeatConverter implements Function<String, HeartBeat> {
 			hri = Integer.parseInt(heartBeatValues[1]);
 		} catch (NumberFormatException e) {
 			logger.error(e.getMessage());
-			return HeartBeat.invalid();
+			return HeartBeat.INVALID;
 		}
 		var qrs = HeartQRS.from(heartBeatValues[2]);
 		return new HeartBeat(timestamp, hri, qrs);

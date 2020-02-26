@@ -6,5 +6,6 @@ import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
 
 
 public interface ResetChecker {
+
 	boolean isReset(List<HeartBeat> heartBeatList);
 }

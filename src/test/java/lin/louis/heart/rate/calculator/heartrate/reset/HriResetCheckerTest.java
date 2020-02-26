@@ -19,9 +19,13 @@ class HriResetCheckerTest {
 
 	@Test
 	void isReset() {
-		assertTrue(checker.isReset(Collections.singletonList(new HeartBeat(LocalDateTime.now(), -2, HeartQRS.NORMAL))),
+		assertTrue(checker.isReset(Collections.singletonList(new HeartBeat(LocalDateTime.now(),
+						-2,
+						HeartQRS.NORMAL))),
 				"Heart beat below min");
-		assertTrue(checker.isReset(Collections.singletonList(new HeartBeat(LocalDateTime.now(), 300, HeartQRS.NORMAL))),
+		assertTrue(checker.isReset(Collections.singletonList(new HeartBeat(LocalDateTime.now(),
+						300,
+						HeartQRS.NORMAL))),
 				"Heart beat above max");
 	}
 
@@ -34,5 +38,11 @@ class HriResetCheckerTest {
 				new HeartBeat(LocalDateTime.now(), 180, HeartQRS.NORMAL),
 				new HeartBeat(LocalDateTime.now(), 8, HeartQRS.NORMAL)
 		)), "Happy path");
+		assertFalse(checker.isReset(Collections.singletonList(
+				new HeartBeat(LocalDateTime.now(), 0, HeartQRS.NORMAL)
+		)), "Min value");
+		assertFalse(checker.isReset(Collections.singletonList(
+				new HeartBeat(LocalDateTime.now(), 250, HeartQRS.NORMAL)
+		)), "Max value");
 	}
 }

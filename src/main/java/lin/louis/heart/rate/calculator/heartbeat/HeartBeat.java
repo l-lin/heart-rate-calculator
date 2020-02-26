@@ -4,15 +4,16 @@ import java.time.LocalDateTime;
 
 
 public class HeartBeat {
-	private LocalDateTime timestamp;
-	private int hri;
+
+	public static final HeartBeat INVALID = new HeartBeat(null, 0, HeartQRS.INVALID);
+
+	private final LocalDateTime timestamp;
+
+	private Integer hri;
+
 	private HeartQRS qrs;
 
-	public static HeartBeat invalid() {
-		return new HeartBeat(LocalDateTime.now(), 0, HeartQRS.INVALID);
-	}
-
-	public HeartBeat(LocalDateTime timestamp, int hri, HeartQRS qrs) {
+	public HeartBeat(LocalDateTime timestamp, Integer hri, HeartQRS qrs) {
 		this.timestamp = timestamp;
 		this.hri = hri;
 		this.qrs = qrs;
@@ -22,23 +23,16 @@ public class HeartBeat {
 		return timestamp;
 	}
 
-	public void setTimestamp(LocalDateTime timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public int getHri() {
+	public Integer getHri() {
 		return hri;
-	}
-
-	public void setHri(int hri) {
-		this.hri = hri;
 	}
 
 	public HeartQRS getQrs() {
 		return qrs;
 	}
 
-	public void setQrs(HeartQRS qrs) {
-		this.qrs = qrs;
+	public void flush() {
+		hri = 0;
+		qrs = HeartQRS.INVALID;
 	}
 }
