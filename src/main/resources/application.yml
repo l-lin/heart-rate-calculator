@@ -1,8 +1,12 @@
+heart-beat:
+  separator: " "
 heart-rate:
+  separator: " "
   gap-duration: 5s
   hri:
     min: 0
     max: 250
+  nb-heart-beats: 8
 spring:
   main:
     banner-mode: OFF

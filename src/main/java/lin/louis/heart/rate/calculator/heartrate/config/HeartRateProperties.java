@@ -1,4 +1,4 @@
-package lin.louis.heart.rate.calculator.heartrate;
+package lin.louis.heart.rate.calculator.heartrate.config;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -12,6 +12,10 @@ public class HeartRateProperties {
 	private Duration gapDuration;
 
 	private HriProperties hri;
+
+	private String separator;
+
+	private int nbHeartBeats;
 
 	public Duration getGapDuration() {
 		return gapDuration;
@@ -27,6 +31,22 @@ public class HeartRateProperties {
 
 	public void setHri(HriProperties hri) {
 		this.hri = hri;
+	}
+
+	public String getSeparator() {
+		return separator;
+	}
+
+	public void setSeparator(String separator) {
+		this.separator = separator;
+	}
+
+	public int getNbHeartBeats() {
+		return nbHeartBeats;
+	}
+
+	public void setNbHeartBeats(int nbHeartBeats) {
+		this.nbHeartBeats = nbHeartBeats;
 	}
 
 	public class HriProperties {
