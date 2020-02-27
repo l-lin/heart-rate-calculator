@@ -26,7 +26,9 @@ There are two jar generated:
 
 ### Usage
 
-Once the jar are generated, you can use it with the following:
+Once the jar are generated (or download the binary from the [release
+page](https://github.com/l-lin/heart-rate-calculator/releases/tag/1.0.0)), you can use it with the
+following:
 
 - either directly as an executable jar
 
