@@ -8,13 +8,22 @@ import org.springframework.boot.convert.DurationUnit;
 
 public class HeartRateProperties {
 
+	/**
+	 * Duration between two consecutive heart beats to be considered as a Gap
+	 */
 	@DurationUnit(ChronoUnit.SECONDS)
 	private Duration gapDuration;
 
 	private HriProperties hri = new HriProperties();
 
+	/**
+	 * Separator used between the heart rate timestamp and its value
+	 */
 	private String separator;
 
+	/**
+	 * Number of heart beats to use to compute a heart rate signal
+	 */
 	private int nbHeartBeats;
 
 	public Duration getGapDuration() {
@@ -51,8 +60,14 @@ public class HeartRateProperties {
 
 	public class HriProperties {
 
+		/**
+		 * Min HRI (Instant Heart Rate) value a heart beat must have
+		 */
 		private int min;
 
+		/**
+		 * Max HRI (Instant Heart Rate) value a heart beat must have
+		 */
 		private int max;
 
 		public int getMin() {

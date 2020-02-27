@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 
-class HeartRateComputorTest {
+class HeartRateValueComputorTest {
 
-	private HeartRateComputor computor = new HeartRateComputor();
+	private HeartRateValueComputor computor = new HeartRateValueComputor();
 
 	@Test
 	void compute() {

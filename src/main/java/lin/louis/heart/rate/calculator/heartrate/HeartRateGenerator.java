@@ -17,6 +17,9 @@ import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeatConverter;
 
 
+/**
+ * Reads the heart beats from InputStream, generate and write the heart rates in OutputStream
+ */
 public class HeartRateGenerator {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 

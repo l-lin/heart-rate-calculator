@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+/**
+ * Convert a heart beat string representation into a Java Object one
+ */
 public class HeartBeatConverter implements Function<String, HeartBeat> {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());

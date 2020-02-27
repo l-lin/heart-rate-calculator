@@ -10,6 +10,9 @@ import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
 import lin.louis.heart.rate.calculator.heartrate.reset.ResetCheckerFacade;
 
 
+/**
+ * Create heart rate from given heart beats
+ */
 public class HeartRateFactory {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -18,19 +21,19 @@ public class HeartRateFactory {
 
 	private final ResetCheckerFacade resetCheckerFacade;
 
-	private final HeartRateComputor heartRateComputor;
+	private final HeartRateValueComputor heartRateValueComputor;
 
 	private final HeartRateValueConverter heartRateValueConverter;
 
 	public HeartRateFactory(
 			int nbHeartBeats,
 			ResetCheckerFacade resetCheckerFacade,
-			HeartRateComputor heartRateComputor,
+			HeartRateValueComputor heartRateValueComputor,
 			HeartRateValueConverter heartRateValueConverter
 	) {
 		this.nbHeartBeats = nbHeartBeats;
 		this.resetCheckerFacade = resetCheckerFacade;
-		this.heartRateComputor = heartRateComputor;
+		this.heartRateValueComputor = heartRateValueComputor;
 		this.heartRateValueConverter = heartRateValueConverter;
 	}
 
@@ -52,7 +55,7 @@ public class HeartRateFactory {
 			return HeartRate.resetHeartRate(t);
 		}
 
-		var value = heartRateComputor.compute(heartBeatList.stream()
+		var value = heartRateValueComputor.compute(heartBeatList.stream()
 				.map(HeartBeat::getHri)
 				.filter(Optional::isPresent)
 				.mapToInt(Optional::get)

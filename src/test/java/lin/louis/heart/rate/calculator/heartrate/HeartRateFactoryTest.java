@@ -33,7 +33,7 @@ class HeartRateFactoryTest {
 					new QRSResetChecker(),
 					new TimestampResetChecker()
 			)),
-			new HeartRateComputor(),
+			new HeartRateValueComputor(),
 			new HeartRateValueConverter()
 	);
 

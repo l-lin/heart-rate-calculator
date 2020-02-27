@@ -5,6 +5,9 @@ import java.util.Locale;
 import java.util.function.DoubleFunction;
 
 
+/**
+ * Converts the heart rate value from double to String representation
+ */
 public class HeartRateValueConverter implements DoubleFunction<String> {
 
 	@Override

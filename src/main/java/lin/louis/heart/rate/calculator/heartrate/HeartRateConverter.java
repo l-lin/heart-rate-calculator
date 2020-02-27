@@ -4,6 +4,9 @@ import java.time.ZoneOffset;
 import java.util.function.Function;
 
 
+/**
+ * Converts a heart rate Java Object representation into a String one
+ */
 public class HeartRateConverter implements Function<HeartRate, String> {
 
 	private final String separator;

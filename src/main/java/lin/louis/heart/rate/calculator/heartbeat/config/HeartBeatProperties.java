@@ -2,6 +2,9 @@ package lin.louis.heart.rate.calculator.heartbeat.config;
 
 public class HeartBeatProperties {
 
+	/**
+	 * Separator used to parse the heart beat String representation
+	 */
 	private String separator;
 
 	public String getSeparator() {

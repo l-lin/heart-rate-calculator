@@ -3,7 +3,10 @@ package lin.louis.heart.rate.calculator.heartrate;
 import java.util.Arrays;
 
 
-public class HeartRateComputor {
+/**
+ * Computes the heart rate value from a given heart beats
+ */
+public class HeartRateValueComputor {
 	public double compute(int... values) {
 		if (values == null || values.length == 0) {
 			return 0d;
