@@ -9,9 +9,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.Queue;
 
+import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.junit.jupiter.api.Test;
 
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
@@ -39,19 +39,18 @@ class HeartRateFactoryTest {
 	@Test
 	void create() {
 		// GIVEN
-		List<HeartBeat> heartBeatList = Arrays.asList(
-				new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED),
-				new HeartBeat(newLocalDateTime(5), 91, HeartBeatQRS.SUPRA_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(7), 88, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(8), 70, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(10), 10, HeartBeatQRS.FUSION)
-		);
+		Queue<HeartBeat> heartBeats = new CircularFifoQueue<>(8);
+		heartBeats.add(new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR));
+		heartBeats.add(new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED));
+		heartBeats.add(new HeartBeat(newLocalDateTime(5), 91, HeartBeatQRS.SUPRA_VENTRICULAR));
+		heartBeats.add(new HeartBeat(newLocalDateTime(7), 88, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(8), 70, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(10), 10, HeartBeatQRS.FUSION));
 
 		// WHEN
-		var heartRate = heartRateFactory.create(heartBeatList);
+		var heartRate = heartRateFactory.create(heartBeats);
 
 		// THEN
 		assertNotNull(heartRate);
@@ -67,22 +66,21 @@ class HeartRateFactoryTest {
 	@Test
 	void create_moreThan8HeartBeats() {
 		// GIVEN
-		List<HeartBeat> heartBeatList = Arrays.asList(
-				new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED),
-				new HeartBeat(newLocalDateTime(5), 91, HeartBeatQRS.SUPRA_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(7), 88, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(8), 70, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(10), 90, HeartBeatQRS.FUSION),
-				new HeartBeat(newLocalDateTime(11), 110, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(13), 10, HeartBeatQRS.FUSION),
-				new HeartBeat(newLocalDateTime(17), 193, HeartBeatQRS.PREMATURE_VENTRICULAR)
-		);
+		Queue<HeartBeat> heartBeats = new CircularFifoQueue<>(8);
+		heartBeats.add(new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR));
+		heartBeats.add(new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED));
+		heartBeats.add(new HeartBeat(newLocalDateTime(5), 91, HeartBeatQRS.SUPRA_VENTRICULAR));
+		heartBeats.add(new HeartBeat(newLocalDateTime(7), 88, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(8), 70, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(10), 10, HeartBeatQRS.FUSION));
+		heartBeats.add(new HeartBeat(newLocalDateTime(11), 110, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(13), 10, HeartBeatQRS.FUSION));
+		heartBeats.add(new HeartBeat(newLocalDateTime(17), 193, HeartBeatQRS.PREMATURE_VENTRICULAR));
 
 		// WHEN
-		var heartRate = heartRateFactory.create(heartBeatList);
+		var heartRate = heartRateFactory.create(heartBeats);
 
 		// THEN
 		assertNotNull(heartRate);
@@ -91,30 +89,29 @@ class HeartRateFactoryTest {
 					assertTrue(heartRate.getTimestamp().isPresent());
 					assertEquals(newLocalDateTime(17), heartRate.getTimestamp().get());
 				},
-				() -> assertEquals(88.0d, heartRate.getValue())
+				() -> assertEquals(84.0d, heartRate.getValue())
 		);
 	}
 
 	@Test
 	void create_reset() {
 		// GIVEN
-		List<HeartBeat> heartBeatList = Arrays.asList(
-				new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED),
-				// Reset at this moment
-				new HeartBeat(newLocalDateTime(5), 91, HeartBeatQRS.INVALID),
-				new HeartBeat(newLocalDateTime(7), 88, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(8), 70, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(10), 90, HeartBeatQRS.FUSION),
-				new HeartBeat(newLocalDateTime(11), 110, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(13), 10, HeartBeatQRS.FUSION),
-				new HeartBeat(newLocalDateTime(17), 193, HeartBeatQRS.PREMATURE_VENTRICULAR)
-		);
+		Queue<HeartBeat> heartBeats = new CircularFifoQueue<>(8);
+		heartBeats.add(new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR));
+		heartBeats.add(new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED));
+		// Reset at this moment
+		heartBeats.add(new HeartBeat(newLocalDateTime(5), 91, HeartBeatQRS.INVALID));
+		heartBeats.add(new HeartBeat(newLocalDateTime(7), 88, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(8), 70, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(10), 10, HeartBeatQRS.FUSION));
+		heartBeats.add(new HeartBeat(newLocalDateTime(11), 110, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(13), 10, HeartBeatQRS.FUSION));
+		heartBeats.add(new HeartBeat(newLocalDateTime(17), 193, HeartBeatQRS.PREMATURE_VENTRICULAR));
 
 		// WHEN
-		var heartRate = heartRateFactory.create(heartBeatList);
+		var heartRate = heartRateFactory.create(heartBeats);
 
 		// THEN
 		assertNotNull(heartRate);
@@ -130,15 +127,14 @@ class HeartRateFactoryTest {
 	@Test
 	void create_lessThan8HeartBeats() {
 		// GIVEN
-		List<HeartBeat> heartBeatList = Arrays.asList(
-				new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL),
-				new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED)
-		);
+		Queue<HeartBeat> heartBeats = new CircularFifoQueue<>(8);
+		heartBeats.add(new HeartBeat(newLocalDateTime(1), 80, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(2), 100, HeartBeatQRS.PREMATURE_VENTRICULAR));
+		heartBeats.add(new HeartBeat(newLocalDateTime(3), 83, HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(newLocalDateTime(4), 80, HeartBeatQRS.PACED));
 
 		// WHEN
-		var heartRate = heartRateFactory.create(heartBeatList);
+		var heartRate = heartRateFactory.create(heartBeats);
 
 		// THEN
 		assertNotNull(heartRate);
@@ -154,7 +150,7 @@ class HeartRateFactoryTest {
 	@Test
 	void create_emptyList() {
 		// WHEN
-		var heartRate = heartRateFactory.create(Collections.emptyList());
+		var heartRate = heartRateFactory.create(new CircularFifoQueue<>(8));
 
 		// THEN
 		assertNotNull(heartRate);

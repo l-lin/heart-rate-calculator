@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
 
+import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +21,7 @@ import lin.louis.heart.rate.calculator.heartbeat.HeartBeatConverter;
  * Reads the heart beats from InputStream, generate and write the heart rates in OutputStream
  */
 public class HeartRateGenerator {
+
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private final int nbHeartBeats;
@@ -49,19 +50,19 @@ public class HeartRateGenerator {
 				var w = new BufferedWriter(new OutputStreamWriter(out))
 		) {
 			String line;
-			List<HeartBeat> heartBeatList = new ArrayList<>(nbHeartBeats);
+			Queue<HeartBeat> heartBeats = new CircularFifoQueue<>(nbHeartBeats);
 			var lineNb = 1;
 			while ((line = r.readLine()) != null) {
 				logger.debug("Reading line {}: {}", lineNb++, line);
 				var heartBeat = heartBeatConverter.apply(line);
-				heartBeatList.add(heartBeat);
+				heartBeats.add(heartBeat);
 
-				var hearRate = heartRateFactory.create(heartBeatList);
-				String heartRateValue = heartRateConverter.apply(hearRate);
+				var heartRate = heartRateFactory.create(heartBeats);
+				String heartRateValue = heartRateConverter.apply(heartRate);
 
 				writeHeartRate(w, heartRateValue);
 
-				heartBeatList = prepareNextIteration(hearRate, heartBeatList);
+				flushIfReset(heartBeats, heartRate);
 			}
 		}
 	}
@@ -73,20 +74,10 @@ public class HeartRateGenerator {
 		}
 	}
 
-	/**
-	 * PrepareNextIteration flushes the last heart beats if the heart rate is reset, and keep the list of hear beats down
-	 * to the configured <b>nbHeartBeats</b>
-	 * @param heartRate the computed heart rate
-	 * @param heartBeatList the list of heart beats to change
-	 * @return a list of heart beats for next iteration
-	 */
-	private List<HeartBeat> prepareNextIteration(HeartRate heartRate, List<HeartBeat> heartBeatList) {
+	private void flushIfReset(Queue<HeartBeat> heartBeats, HeartRate heartRate) {
 		if (heartRate.isReset()) {
-			return new ArrayList<>(nbHeartBeats);
+			heartBeats.clear();
 		}
-		if (heartBeatList.size() == nbHeartBeats) {
-			heartBeatList.remove(0);
-		}
-		return heartBeatList;
 	}
+
 }

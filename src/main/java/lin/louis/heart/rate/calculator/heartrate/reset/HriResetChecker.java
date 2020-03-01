@@ -1,6 +1,6 @@
 package lin.louis.heart.rate.calculator.heartrate.reset;
 
-import java.util.List;
+import java.util.Queue;
 
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
 
@@ -17,7 +17,7 @@ public class HriResetChecker implements ResetChecker {
 	}
 
 	@Override
-	public boolean isReset(List<HeartBeat> heartBeatList) {
+	public boolean isReset(Queue<HeartBeat> heartBeatList) {
 		return heartBeatList.stream()
 				.anyMatch(heartBeat -> heartBeat.getHri().isPresent() &&
 						(heartBeat.getHri().get() < hriMin || heartBeat.getHri().get() > hriMax)

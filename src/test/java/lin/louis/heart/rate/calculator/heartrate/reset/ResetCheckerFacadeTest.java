@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
 
+import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.junit.jupiter.api.Test;
 
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeat;
@@ -25,31 +26,43 @@ class ResetCheckerFacadeTest {
 
 	@Test
 	void isReset() {
-		assertTrue(checkerFacade.isReset(Arrays.asList(
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21), 80, HeartBeatQRS.NORMAL),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23), 0, HeartBeatQRS.INVALID),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 27), -88, HeartBeatQRS.PACED),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 29),
-						180,
-						HeartBeatQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 31),
-						8,
-						HeartBeatQRS.SUPRA_VENTRICULAR)
-		)));
+		var heartBeats = new CircularFifoQueue<HeartBeat>(8);
+		heartBeats.add(new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21),
+				80,
+				HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23),
+				0,
+				HeartBeatQRS.INVALID));
+		heartBeats.add(new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 27),
+				-88,
+				HeartBeatQRS.PACED));
+		heartBeats.add(new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 29),
+				180,
+				HeartBeatQRS.PREMATURE_VENTRICULAR));
+		heartBeats.add(new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 31),
+				8,
+				HeartBeatQRS.SUPRA_VENTRICULAR));
+		assertTrue(checkerFacade.isReset(heartBeats));
 	}
 
 	@Test
 	void isNotReset() {
-		assertFalse(checkerFacade.isReset(Arrays.asList(
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21), 80, HeartBeatQRS.NORMAL),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23), 8, HeartBeatQRS.FUSION),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 27), 88, HeartBeatQRS.PACED),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 29),
-						180,
-						HeartBeatQRS.PREMATURE_VENTRICULAR),
-				new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 31),
-						8,
-						HeartBeatQRS.SUPRA_VENTRICULAR)
-		)));
+		var heartBeats = new CircularFifoQueue<HeartBeat>(8);
+		heartBeats.add(new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 21),
+				80,
+				HeartBeatQRS.NORMAL));
+		heartBeats.add(new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 23),
+				0,
+				HeartBeatQRS.FUSION));
+		heartBeats.add(new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 27),
+				88,
+				HeartBeatQRS.PACED));
+		heartBeats.add(new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 29),
+				180,
+				HeartBeatQRS.PREMATURE_VENTRICULAR));
+		heartBeats.add(new HeartBeat(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 31),
+				8,
+				HeartBeatQRS.SUPRA_VENTRICULAR));
+		assertFalse(checkerFacade.isReset(heartBeats));
 	}
 }

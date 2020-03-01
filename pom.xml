@@ -23,6 +23,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.4</version>
+		</dependency>
 		<!-- use to generate the META-INF/spring-configuration-metadata.json to help developers to use the properties -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
