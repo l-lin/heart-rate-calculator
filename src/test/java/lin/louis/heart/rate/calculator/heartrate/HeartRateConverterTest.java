@@ -17,13 +17,16 @@ class HeartRateConverterTest {
 	void apply() {
 		assertAll(
 				() -> assertEquals("1574676011000 91.3", converter.apply(
-						new HeartRate(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11), "91.3"))
+						new HeartRate(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11), 91.3d))
+				),
+				() -> assertEquals("1574676011000 91.0", converter.apply(
+						new HeartRate(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11), 91d))
 				),
 				() -> assertEquals("1574676011000 NaN", converter.apply(
-						new HeartRate(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11), "NaN"))
+						new HeartRate(LocalDateTime.of(2019, Month.NOVEMBER.getValue(), 25, 10, 0, 11), Double.NaN))
 				),
 				() -> assertEquals("", converter.apply(null)),
-				() -> assertEquals("", converter.apply(new HeartRate(null, "NaN")))
+				() -> assertEquals("", converter.apply(new HeartRate(null, Double.NaN)))
 		);
 	}
 
@@ -31,7 +34,7 @@ class HeartRateConverterTest {
 	void edgeCases() {
 		assertAll(
 				() -> assertEquals("", converter.apply(null), "Null heart rate"),
-				() -> assertEquals("", converter.apply(new HeartRate(null, "NaN")), "Null timestamp")
+				() -> assertEquals("", converter.apply(new HeartRate(null, Double.NaN)), "Null timestamp")
 		);
 	}
 }

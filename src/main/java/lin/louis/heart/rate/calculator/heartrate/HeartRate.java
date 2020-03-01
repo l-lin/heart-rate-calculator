@@ -8,25 +8,23 @@ import org.springframework.lang.Nullable;
 
 public class HeartRate {
 
-	private static final String NAN_VALUE = "NaN";
-
 	private final LocalDateTime timestamp;
 
-	private final String value;
+	private final Double value;
 
 	private boolean isReset;
 
 	public static HeartRate nan(@Nullable LocalDateTime t) {
-		return new HeartRate(t, NAN_VALUE);
+		return new HeartRate(t, Double.NaN);
 	}
 
 	public static HeartRate resetHeartRate(@Nullable LocalDateTime t) {
-		var heartRate = new HeartRate(t, NAN_VALUE);
+		var heartRate = new HeartRate(t, Double.NaN);
 		heartRate.isReset = true;
 		return heartRate;
 	}
 
-	public HeartRate(LocalDateTime timestamp, String value) {
+	public HeartRate(LocalDateTime timestamp, Double value) {
 		this.timestamp = timestamp;
 		this.value = value;
 	}
@@ -35,7 +33,7 @@ public class HeartRate {
 		return Optional.ofNullable(timestamp);
 	}
 
-	public String getValue() {
+	public Double getValue() {
 		return value;
 	}
 

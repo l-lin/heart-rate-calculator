@@ -23,18 +23,14 @@ public class HeartRateFactory {
 
 	private final HeartRateValueComputor heartRateValueComputor;
 
-	private final HeartRateValueConverter heartRateValueConverter;
-
 	public HeartRateFactory(
 			int nbHeartBeats,
 			ResetCheckerFacade resetCheckerFacade,
-			HeartRateValueComputor heartRateValueComputor,
-			HeartRateValueConverter heartRateValueConverter
+			HeartRateValueComputor heartRateValueComputor
 	) {
 		this.nbHeartBeats = nbHeartBeats;
 		this.resetCheckerFacade = resetCheckerFacade;
 		this.heartRateValueComputor = heartRateValueComputor;
-		this.heartRateValueConverter = heartRateValueConverter;
 	}
 
 	public HeartRate create(List<HeartBeat> heartBeatList) {
@@ -60,7 +56,7 @@ public class HeartRateFactory {
 				.filter(Optional::isPresent)
 				.mapToInt(Optional::get)
 				.toArray());
-		return new HeartRate(t, heartRateValueConverter.apply(value));
+		return new HeartRate(t, value);
 	}
 
 	private boolean hasEnoughHeartBeats(List<HeartBeat> heartBeatList) {

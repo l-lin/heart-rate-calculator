@@ -33,8 +33,7 @@ class HeartRateFactoryTest {
 					new QRSResetChecker(),
 					new TimestampResetChecker()
 			)),
-			new HeartRateValueComputor(),
-			new HeartRateValueConverter()
+			new HeartRateValueComputor()
 	);
 
 	@Test
@@ -61,7 +60,7 @@ class HeartRateFactoryTest {
 					assertTrue(heartRate.getTimestamp().isPresent());
 					assertEquals(newLocalDateTime(10), heartRate.getTimestamp().get());
 				},
-				() -> assertEquals("81.5", heartRate.getValue())
+				() -> assertEquals(81.5d, heartRate.getValue())
 		);
 	}
 
@@ -92,7 +91,7 @@ class HeartRateFactoryTest {
 					assertTrue(heartRate.getTimestamp().isPresent());
 					assertEquals(newLocalDateTime(17), heartRate.getTimestamp().get());
 				},
-				() -> assertEquals("88.0", heartRate.getValue())
+				() -> assertEquals(88.0d, heartRate.getValue())
 		);
 	}
 
@@ -124,7 +123,7 @@ class HeartRateFactoryTest {
 					assertTrue(heartRate.getTimestamp().isPresent());
 					assertEquals(newLocalDateTime(17), heartRate.getTimestamp().get());
 				},
-				() -> assertEquals("NaN", heartRate.getValue())
+				() -> assertEquals(Double.NaN, heartRate.getValue())
 		);
 	}
 
@@ -148,7 +147,7 @@ class HeartRateFactoryTest {
 					assertTrue(heartRate.getTimestamp().isPresent());
 					assertEquals(newLocalDateTime(4), heartRate.getTimestamp().get());
 				},
-				() -> assertEquals("NaN", heartRate.getValue())
+				() -> assertEquals(Double.NaN, heartRate.getValue())
 		);
 	}
 
@@ -161,7 +160,7 @@ class HeartRateFactoryTest {
 		assertNotNull(heartRate);
 		assertAll(
 				() -> assertTrue(heartRate.getTimestamp().isEmpty()),
-				() -> assertEquals("NaN", heartRate.getValue())
+				() -> assertEquals(Double.NaN, heartRate.getValue())
 		);
 	}
 

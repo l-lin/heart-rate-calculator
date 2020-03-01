@@ -7,11 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import lin.louis.heart.rate.calculator.heartbeat.HeartBeatConverter;
-import lin.louis.heart.rate.calculator.heartrate.HeartRateValueComputor;
 import lin.louis.heart.rate.calculator.heartrate.HeartRateConverter;
 import lin.louis.heart.rate.calculator.heartrate.HeartRateFactory;
 import lin.louis.heart.rate.calculator.heartrate.HeartRateGenerator;
-import lin.louis.heart.rate.calculator.heartrate.HeartRateValueConverter;
+import lin.louis.heart.rate.calculator.heartrate.HeartRateValueComputor;
 import lin.louis.heart.rate.calculator.heartrate.reset.GapResetChecker;
 import lin.louis.heart.rate.calculator.heartrate.reset.HriResetChecker;
 import lin.louis.heart.rate.calculator.heartrate.reset.QRSResetChecker;
@@ -49,22 +48,15 @@ public class HeartRateConfig {
 	}
 
 	@Bean
-	HeartRateValueConverter heartRateValueConverter() {
-		return new HeartRateValueConverter();
-	}
-
-	@Bean
 	HeartRateFactory heartRateFactory(
 			HeartRateProperties heartRateProperties,
 			ResetCheckerFacade resetCheckerFacade,
-			HeartRateValueComputor heartRateValueComputor,
-			HeartRateValueConverter heartRateValueConverter
+			HeartRateValueComputor heartRateValueComputor
 	) {
 		return new HeartRateFactory(
 				heartRateProperties.getNbHeartBeats(),
 				resetCheckerFacade,
-				heartRateValueComputor,
-				heartRateValueConverter
+				heartRateValueComputor
 		);
 	}
 
