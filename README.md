@@ -1,6 +1,7 @@
 # heart-rate-calculator
 
 ![Java CI](https://github.com/l-lin/heart-rate-calculator/workflows/Java%20CI/badge.svg)
+[![BCH compliance](https://bettercodehub.com/edge/badge/l-lin/heart-rate-calculator?branch=master)](https://bettercodehub.com/)
 
 > Small Java application that computes the derivative heart rate signals given a file
 > containing the heart beats and write the output into a file. 
