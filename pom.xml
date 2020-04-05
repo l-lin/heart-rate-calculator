@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<commons.collections4.version>4.4</commons.collections4.version>
 	</properties>
 
 	<dependencies>
@@ -26,7 +27,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
-			<version>4.4</version>
+			<version>${commons.collections4.version}</version>
 		</dependency>
 		<!-- use to generate the META-INF/spring-configuration-metadata.json to help developers to use the properties -->
 		<dependency>

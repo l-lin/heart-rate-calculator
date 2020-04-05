@@ -6,6 +6,21 @@
 > Small Java application that computes the derivative heart rate signals given a file
 > containing the heart beats and write the output into a file. 
 
+A heart rate (HR) is a signal derived from hri. It describes a heartbeat measured by the number of
+contractions (beats) of the heart per minute (bpm).
+A heart rate should be computed as following:
+
+- heart rate value is the median of the last 8 HRI
+  - if there are less than 8 HRI, then it's a NaN
+- heart rate is reset if:
+  - a gap is detected
+  - a qrs type X is detected
+  - hri is out of the range [0-250]
+  - the new detected timestamp is prior the last detected timestamp
+- heart rate reset means:
+  - the buffer of 8 last HRI is flushed
+  - current HR value at reset event is set to NaN
+
 ## Getting started
 ### Prerequisites
 
